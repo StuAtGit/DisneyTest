@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.shareplaylearn</groupId>
-	<artifactId>disney-poc</artifactId>
+	<artifactId>dog-breed-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>disney-poc</name>
 	<description>Demo project for Spring Boot</description>
@@ -28,6 +28,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 	</dependencies>
 
