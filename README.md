@@ -1,6 +1,52 @@
 ## Dog Breed API*
 A PoC service for my Disney interview.
 
+
+## Dependencies
+
+This project uses Maven for builds.
+You need Java 8 installed.
+
+## Building
+
+```
+$ mvn package
+```
+
+## Running
+
+```
+$ java -jar target/dog-breed-api-0.0.1-SNAPSHOT.jar
+```
+
+## Resources:
+
+```
+GET /api/ -> list all dogs (TODO: eliminate trailing slash!)
+GET /api/dogs/[breed] -> list all dogs with the given breed
+GET /api/dogs -> list all dogs grouped by breed
+GET /api/dog/[dogId] -> get dog with [id]
+POST /api/upvote/[dogId]/user/[userId] -> cast one upvote for dog [dogId] using [userId]
+POST /api/upvote/[dogId]/user/[userId] -> cast one downvote for dog [dogId] using [userId]
+```
+
+##Assumptions:
+ - userIds can be authenticated and authorized via some other service/library.
+ - I do build out some dummy test users ids ( 1,2,3,4,etc )
+
+##Known issues:
+- the voting mechanism is logically correct (a given userId can only
+  vote for a particular dog once => true). 
+  However, it's not actually correct:
+  a given userId can only vote once!!. 
+  IOW, this statement is false: A given userId can vote for every
+  dog at least once. Not true.
+  I do realize these two constraints where what was meant, and
+  I meant to add the ability to 
+  track which dog(s) a userId voted for, but ran out of time.
+  
+- not enough unit tests! (ran out of time). 
+
 ### Notes on libraries, etc.
 
 #### Spring Boot
@@ -9,9 +55,9 @@ Yes, this is (pretty much) my first time with spring boot.
 (Not my first time with Spring, though) 
 Why? Because the motivations that resulted in the creation 
 of spring boot, motivated me off of spring for 
-everything except DI before Spring Boot came out, and then
-they fixed the issues with spring boot. Examples of things that 
-spring finally came around too:
+everything except DI before Spring Boot came out, and I haven't taken a look at it.
+Examples of why I migrated off of using Spring, and, also, reasons given for the 
+creation of spring boot:
 
 - Code over Configuration
     - note that I even take this to preferring
