@@ -17,16 +17,14 @@ public interface DogDao {
         "values (:registeredName,:petName,:breed,:pictureUrl,:thumbnailUrl)")
     void insertDog(
         @BindBean Dog dog
-//        @Bind("registeredName") String registeredName,
-//        @Bind("petName") String petName,
-//        @Bind("breed") String breed,
-//        @Bind("pictureUrl") String pictureUrl,
-//        @Bind("thumbnailUrl") String thumbnailUrl
     );
 
     @SqlQuery("select * from Dog where breed = :breed")
     @RegisterBeanMapper(Dog.class)
     List<Dog> getDogsWithBreed(@Bind("breed") String breed);
+
+    @SqlQuery("select distinct breed from Dog")
+    List<String> getBreeds();
 
     @SqlQuery("select * from Dog")
     @RegisterBeanMapper(Dog.class)

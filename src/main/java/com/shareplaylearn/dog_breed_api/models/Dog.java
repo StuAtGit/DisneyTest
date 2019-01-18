@@ -13,6 +13,7 @@ public class Dog {
     private String breed;
     private String pictureUrl;
     private String thumbnailUrl;
+    private Integer votes;
     private static final Gson gson = new Gson();
 
     public Dog(String breed, String pictureUrl) throws MalformedURLException {
@@ -68,6 +69,14 @@ public class Dog {
 
     public void setThumbnailUrl(String thumbnailUrl) {
         this.thumbnailUrl = thumbnailUrl;
+    }
+
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
     }
 
     @Override

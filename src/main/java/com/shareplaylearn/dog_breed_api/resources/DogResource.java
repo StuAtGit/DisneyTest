@@ -53,4 +53,22 @@ public class DogResource {
         ctxt.stop();
         return resp;
     }
+
+    public ResponseEntity<String> getBreeds() {
+        ResponseEntity<String> resp = GenericResourceHandler.handleResource(
+            () -> this.dogService.getBreeds(),
+            LOG,
+            "No Breeds Found."
+        );
+        return resp;
+    }
+
+    public ResponseEntity<String> getDogsByBreed() {
+        ResponseEntity<String> resp = GenericResourceHandler.handleResource(
+            () -> this.dogService.getDogsGroupedByBreed(),
+            LOG,
+            "No Dogs Found."
+        );
+        return resp;
+    }
 }

@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -33,6 +34,18 @@ public class DogBreedApiTests {
 	//It comes in handy in DAO tests which often already have looong method names.
 	public void index() {
 		assertEquals(HttpStatus.OK.value(),dogBreedApiController.getDogIndex().getStatusCodeValue());
+	}
+
+	@Test
+	public void getBreeds() {
+		ResponseEntity<String> breeds = dogBreedApiController.getBreeds();
+		assertEquals(HttpStatus.OK.value(), breeds.getStatusCodeValue());
+	}
+
+	@Test
+	public void getDogsByBreed() {
+		ResponseEntity<String> breeds = dogBreedApiController.getDogsByBreed();
+		assertEquals(HttpStatus.OK.value(), breeds.getStatusCodeValue());
 	}
 
 }

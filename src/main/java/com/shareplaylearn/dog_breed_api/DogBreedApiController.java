@@ -85,6 +85,16 @@ public class DogBreedApiController implements InitializingBean {
         return dogResource.getDogsWithBreed(breed);
     }
 
+    @GetMapping(path="/breeds", produces="application/json")
+    public ResponseEntity<String> getBreeds() {
+        return dogResource.getBreeds();
+    }
+
+    @GetMapping(path="/dogs", produces = "application/json")
+    public ResponseEntity<String> getDogsByBreed() {
+        return dogResource.getDogsByBreed();
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         PetLoader petLoader = new PetLoader(DogDb());
