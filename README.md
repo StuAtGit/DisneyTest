@@ -54,7 +54,7 @@ So, obviously, I went with the "any ORM" part :)
  
 Why? JDBI is just really nice, in my opinion. Note that I'm very
 much on the "Keep Your ORM Thin", camp. But, on the other hand,
-no, I don't like scattering SQL throughout my code. On the other 
+no, I don't like scattering SQL throughout my code. On the third 
 side of things, no, I don't like debugging through a dense, complicated, 
 opaque translation when things go wrong or performance goes haywire
 with your SQL. There's been so much passion about ORMs in the past,
