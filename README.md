@@ -1,4 +1,4 @@
-## Dog Breed API
+## Dog Breed API*
 A PoC service for my Disney interview.
 
 ### Notes on libraries, etc.
@@ -19,10 +19,10 @@ spring finally came around too:
     possible, of course, without too much trouble.
 - Embedded Servers for easy local testing & debug
     - I typically prefer wrappers around Embedded Jetty, 
-    though, since I think that, in the case of an embedded
-    server, Jetty seen much more use in prod (battle tested),
-    whereas embedded Tomcat isn't necessarily as widely used
-    (although I've found standalone Tomcat is very common, obviously)
+    though, since I feel like, in the *embedded*
+    server space, Jetty has seen more use in prod,
+    whereas *embedded* Tomcat isn't necessarily as widely used
+    (although I've found standalone Tomcat w/ WARs is very common, obviously)
 
 What's my typical stack?
 
@@ -55,4 +55,7 @@ opaque translation when things go wrong or performance goes haywire
 with your SQL. There's been so much passion about ORMs in the past,
 no need for me to re-hash here.   
 Basically, yes, I like ORMs, but I like thin (and transparently thread-safe!) ones.
+
+*I wrote this in an IDE, on a kinda small window without much in the way of 
+advanced spelling or grammar checking. Apologies for any spelling & grammar issues.
 
