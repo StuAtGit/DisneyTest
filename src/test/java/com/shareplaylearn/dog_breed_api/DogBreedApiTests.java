@@ -48,5 +48,44 @@ public class DogBreedApiTests {
 		assertEquals(HttpStatus.OK.value(), breeds.getStatusCodeValue());
 	}
 
+	@Test
+	public void postUpVote() {
+		ResponseEntity<String> voteResponse = dogBreedApiController.postUpVote("1", "1");
+		assertEquals(HttpStatus.OK.value(), voteResponse.getStatusCodeValue());
+	}
+
+	@Test
+	public void postTwoVotes() {
+		ResponseEntity<String> voteResponse = dogBreedApiController.postUpVote("1", "4");
+		assertEquals(HttpStatus.OK.value(), voteResponse.getStatusCodeValue());
+		ResponseEntity<String> voteResponse2 = dogBreedApiController.postUpVote("1", "4");
+		assertEquals(HttpStatus.BAD_REQUEST.value(), voteResponse2.getStatusCodeValue());
+	}
+
+	@Test
+	public void postUpVoteWithInvalidId() {
+		ResponseEntity<String> voteResponse = dogBreedApiController.postUpVote("abac", "2");
+		assertEquals(HttpStatus.BAD_REQUEST.value(), voteResponse.getStatusCodeValue());
+	}
+
+	@Test
+	public void postDownVote() {
+		ResponseEntity<String> voteResponse = dogBreedApiController.postDownVote("1", "3");
+		assertEquals(HttpStatus.OK.value(), voteResponse.getStatusCodeValue());
+	}
+
+	@Test
+	public void postDownVoteWithInvalidDogId() {
+		ResponseEntity<String> voteResponse = dogBreedApiController.postDownVote("abac", "1");
+		assertEquals(HttpStatus.BAD_REQUEST.value(), voteResponse.getStatusCodeValue());
+	}
+
+
+	@Test
+	public void postDownVoteWithInvalidUserId() {
+		ResponseEntity<String> voteResponse = dogBreedApiController.postDownVote("1", "abce");
+		assertEquals(HttpStatus.BAD_REQUEST.value(), voteResponse.getStatusCodeValue());
+	}
+
 }
 
