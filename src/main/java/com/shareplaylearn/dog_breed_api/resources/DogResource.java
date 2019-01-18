@@ -71,4 +71,38 @@ public class DogResource {
         );
         return resp;
     }
+
+    public ResponseEntity<String> postUpVote(String dogId, String userId) {
+        ResponseEntity<String> resp = GenericResourceHandler.handleResource(
+            () -> {
+                return this.dogService.addVote(dogId, userId);
+            },
+            LOG,
+            "No Dog Found with id: " + dogId
+        );
+        return resp;
+    }
+
+    public ResponseEntity<String> postDownVote(String dogId, String userId) {
+        ResponseEntity<String> resp = GenericResourceHandler.handleResource(
+            () -> {
+                this.dogService.subtractVote(dogId, userId);
+                return "OK";
+            },
+            LOG,
+            "No Dog Found with id: " + dogId
+        );
+        return resp;
+    }
+
+    public ResponseEntity<String> getDog(String dogId) {
+        ResponseEntity<String> resp = GenericResourceHandler.handleResource(
+            () -> {
+                return this.dogService.getDog(dogId);
+            },
+            LOG,
+            "No Dog Found with id: " + dogId
+        );
+        return resp;
+    }
 }

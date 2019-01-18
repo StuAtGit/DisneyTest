@@ -6,7 +6,6 @@ import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
-import org.jdbi.v3.sqlobject.statement.UseRowMapper;
 
 import java.util.List;
 
@@ -18,6 +17,10 @@ public interface DogDao {
     void insertDog(
         @BindBean Dog dog
     );
+
+    @SqlQuery("select * from Dog where id = :id")
+    @RegisterBeanMapper(Dog.class)
+    Dog getDog(@Bind("id") Integer id);
 
     @SqlQuery("select * from Dog where breed = :breed")
     @RegisterBeanMapper(Dog.class)
@@ -32,4 +35,10 @@ public interface DogDao {
 
     @SqlUpdate("delete from Dog")
     void clearData();
+
+    @SqlUpdate("update Dog set votes = votes + 1 where id=:id")
+    void addVote(@Bind("id") Integer id);
+
+    @SqlUpdate("update Dog set votes = votes - 1 where id=:id")
+    void subtractVote(@Bind("id") Integer id);
 }

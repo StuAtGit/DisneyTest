@@ -22,7 +22,8 @@ public class Dog {
         this.pictureUrl = pictureUrl;
     }
 
-    public Dog() {}
+    public Dog() {
+    }
 
     public String getBreed() {
         return breed;
@@ -84,17 +85,18 @@ public class Dog {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Dog dog = (Dog) o;
-        return id == dog.id &&
+        return Objects.equals(id, dog.id) &&
             Objects.equals(registeredName, dog.registeredName) &&
             Objects.equals(petName, dog.petName) &&
             Objects.equals(breed, dog.breed) &&
             Objects.equals(pictureUrl, dog.pictureUrl) &&
-            Objects.equals(thumbnailUrl, dog.thumbnailUrl);
+            Objects.equals(thumbnailUrl, dog.thumbnailUrl) &&
+            Objects.equals(votes, dog.votes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, registeredName, petName, breed, pictureUrl, thumbnailUrl);
+        return Objects.hash(id, registeredName, petName, breed, pictureUrl, thumbnailUrl, votes);
     }
 
     @Override

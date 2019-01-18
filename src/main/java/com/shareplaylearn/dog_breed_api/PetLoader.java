@@ -1,7 +1,9 @@
 package com.shareplaylearn.dog_breed_api;
 
 import com.shareplaylearn.dog_breed_api.daos.DogDao;
+import com.shareplaylearn.dog_breed_api.daos.UserDao;
 import com.shareplaylearn.dog_breed_api.models.Dog;
+import com.shareplaylearn.dog_breed_api.models.User;
 import org.jdbi.v3.core.Jdbi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,11 +75,6 @@ public class PetLoader {
                             Dog dog = new Dog(breed, pictureUrl);
                             dogDao.insertDog(
                                 dog
-//                                dog.getRegisteredName(),
-//                                dog.getPetName(),
-//                                dog.getBreed(),
-//                                dog.getPictureUrl(),
-//                                dog.getThumbnailUrl()
                             );
                         } catch(MalformedURLException e) {
                             LOG.info("Encountered invalid URL when loading dogs: " + e.getMessage());
@@ -98,6 +95,20 @@ public class PetLoader {
         );
     }
 
+    public void initTestUser() {
+        this.jdbi.useHandle(
+            handle -> {
+                UserDao userDao = handle.attach(UserDao.class);
+                for(int i = 0; i < 10; ++i) {
+                    User user = new User();
+                    user.setHasVoted(0);
+                    user.setId(i);
+                    userDao.insertUser(user);
+                }
+            }
+        );
+    }
+
     public void initDogDb() {
         jdbi.useHandle(
             handle -> {
@@ -108,7 +119,13 @@ public class PetLoader {
                         "petName varchar(256)," +
                         "breed varchar(256)," +
                         "pictureUrl varchar(256)," +
-                        "thumbnailUrl varchar(256)" +
+                        "thumbnailUrl varchar(256)," +
+                        "votes integer default 0 NOT NULL" +
+                        ");");
+                handle.execute(
+                    "create table if not exists User (" +
+                        "id integer primary key auto_increment," +
+                        "hasVoted integer default 0 NOT NULL" +
                         ");");
             }
         );

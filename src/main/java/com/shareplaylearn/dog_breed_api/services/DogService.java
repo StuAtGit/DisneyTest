@@ -2,16 +2,20 @@ package com.shareplaylearn.dog_breed_api.services;
 
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
+import com.shareplaylearn.dog_breed_api.daos.UserDao;
 import com.shareplaylearn.dog_breed_api.daos.DogDao;
+import com.shareplaylearn.dog_breed_api.models.User;
 import com.shareplaylearn.dog_breed_api.models.Dog;
-import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.core.Jdbi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class DogService {
+    private static final Logger LOG = LoggerFactory.getLogger(DogService.class);
     private final Jdbi jdbi;
     private final MetricRegistry metricRegistry;
     //public is useful for use with tests/mocking
@@ -92,6 +96,59 @@ public class DogService {
                     ctxt.stop();
                 }
                 return ret;
+            }
+        );
+    }
+
+    private boolean clientHasVoted(UserDao userDao, String userId) {
+        User c = userDao.getUser(Integer.parseInt(userId));
+        if(c == null) {
+            throw new IllegalArgumentException("Invalid user: " + userId);
+        } else return c.getHasVoted().equals(1);
+    }
+
+    public Integer addVote(String dogId, String userId) {
+        return this.jdbi.inTransaction(
+            (h) -> {
+                UserDao userDao = h.attach(UserDao.class);
+                if(clientHasVoted(userDao, userId)) {
+                    throw new IllegalArgumentException("User has already voted!");
+                }
+                DogDao dao = h.attach(DogDao.class);
+                Dog dog = dao.getDog(Integer.parseInt(dogId));
+                if(dog == null) {
+                    return null;
+                }
+                LOG.debug("Adding vote to dog: " + dogId);
+
+                dao.addVote(Integer.parseInt(dogId));
+                userDao.markVote(Integer.parseInt(userId));
+                Integer votes = dao.getDog(Integer.parseInt(dogId)).getVotes();
+                return votes;
+            }
+        );
+    }
+
+    public void subtractVote(String dogId, String userId) {
+        this.jdbi.inTransaction(
+            (h) -> {
+                UserDao userDao = h.attach(UserDao.class);
+                if(clientHasVoted(userDao, userId)) {
+                    throw new IllegalArgumentException("User has already voted!");
+                }
+                LOG.debug("Subtracting vote from dog: " + dogId);
+                h.attach(DogDao.class).subtractVote(Integer.parseInt(dogId));
+                userDao.markVote(Integer.parseInt(userId));
+                return null;
+            }
+        );
+    }
+
+    public Dog getDog(String dogId) {
+        return this.jdbi.withHandle(
+            (h) -> {
+                LOG.debug("Retrieving dog: " + dogId);
+                return h.attach(DogDao.class).getDog(Integer.parseInt(dogId));
             }
         );
     }

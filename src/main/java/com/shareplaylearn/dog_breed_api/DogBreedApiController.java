@@ -12,12 +12,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.core.io.Resource;
 
+import javax.ws.rs.Path;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -95,6 +93,43 @@ public class DogBreedApiController implements InitializingBean {
         return dogResource.getDogsByBreed();
     }
 
+    /**
+     * 
+     * @param dogId - the id of the dog to upvote
+     * @param userId - the id of the user making this request. Actually
+     *               authorizing & authenticating this user id is left to another service
+     * @return
+     */
+    @PostMapping(path="/upvote/{dogId}/user/{userId}", produces = "application/json")
+    public ResponseEntity<String> postUpVote(
+        @PathVariable("dogId") String dogId,
+        @PathVariable("userId") String userId
+    ) {
+        return dogResource.postUpVote(dogId, userId);
+    }
+
+    /**
+     *
+     * @param dogId - the id of the dog to downvote
+     * @param userId - the id of the user making this request. Actually
+     *               authorizing & authenticating this user id is left to another service
+     * @return
+     */
+    @PostMapping(path="/downvote/{dogId}/user/{userId}", produces = "application/json")
+    public ResponseEntity<String> postDownVote(
+        @PathVariable("dogId") String dogId,
+        @PathVariable("userId") String userId
+    ) {
+        return dogResource.postDownVote(dogId, userId);
+    }
+
+    @GetMapping(path="/dog/{dogId}", produces = "application/json")
+    public ResponseEntity<String> getDog(
+        @PathVariable("dogId") String dogId
+    ) {
+        return dogResource.getDog(dogId);
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         PetLoader petLoader = new PetLoader(DogDb());
@@ -108,5 +143,6 @@ public class DogBreedApiController implements InitializingBean {
                 new PetLoader.Entry("yorkies", yorkies)
             )
         );
+        petLoader.initTestUser();
     }
 }
