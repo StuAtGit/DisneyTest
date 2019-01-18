@@ -8,40 +8,60 @@ import com.shareplaylearn.dog_breed_api.resources.DogResource;
 import com.shareplaylearn.dog_breed_api.services.DogService;
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.core.io.Resource;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class DogBreedApiController {
+public class DogBreedApiController implements InitializingBean {
 
+    // Resources to the different files we need to load.
+    @Value("classpath:data/labrador.txt")
+    private Resource labradors;
+
+    @Value("classpath:data/pug.txt")
+    private Resource pugs;
+
+    @Value("classpath:data/retriever.txt")
+    private Resource retrievers;
+
+    @Value("classpath:data/yorkie.txt")
+    private Resource yorkies;
+
+    //Resource as in REST resource
     private DogResource dogResource;
 
-    public DogBreedApiController() {
+    public DogBreedApiController() throws IOException {
         this.dogResource = dogResource();
     }
 
     @Bean
-    public DogResource dogResource() {
+    public DogResource dogResource() throws IOException {
         return new DogResource(dogService(), metricRegistry());
     }
 
     @Bean
-    public DogService dogService() {
+    public DogService dogService() throws IOException {
         return new DogService(DogDb(), metricRegistry());
     }
 
     @Bean
-    public Jdbi DogDb() {
+    public Jdbi DogDb() throws IOException {
         Jdbi jdbi = Jdbi.create("jdbc:h2:mem:DogDb;db_close_delay=-1");
         jdbi.installPlugin(new SqlObjectPlugin());
-        initDogDb(jdbi);
         return jdbi;
     }
 
@@ -51,22 +71,6 @@ public class DogBreedApiController {
         JmxReporter reporter = JmxReporter.forRegistry(metricRegistry).build();
         reporter.start();
         return metricRegistry;
-    }
-
-    private void initDogDb(Jdbi jdbi) {
-        jdbi.useHandle(
-            handle -> {
-                handle.execute(
-                    "create table if not exists Dog (" +
-                        "id integer primary key auto_increment," +
-                        "breed varchar(256)," +
-                        ");");
-                DogDao dogDao = handle.attach(DogDao.class);
-                dogDao.insertDog(new Dog("French Bulldog"));
-                dogDao.insertDog(new Dog("Schnauzer"));
-                System.out.println(dogDao.getDogIndex());
-            }
-        );
     }
 
     @GetMapping(path="/", produces="application/json")
@@ -79,5 +83,20 @@ public class DogBreedApiController {
         @PathVariable("breed") String breed
     ) {
         return dogResource.getDogsWithBreed(breed);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        PetLoader petLoader = new PetLoader(DogDb());
+        petLoader.initDogDb();
+        petLoader.clearDogs();
+        petLoader.loadBreeds(
+            Arrays.asList(
+                new PetLoader.Entry("labrador", labradors),
+                new PetLoader.Entry("pugs", pugs),
+                new PetLoader.Entry("retrievers", retrievers),
+                new PetLoader.Entry("yorkies", yorkies)
+            )
+        );
     }
 }

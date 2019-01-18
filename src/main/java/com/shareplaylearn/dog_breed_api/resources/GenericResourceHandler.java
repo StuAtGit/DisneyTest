@@ -46,6 +46,7 @@ public class GenericResourceHandler {
         //run into when processing user input that comes as a string are children of
         //it
         } catch(IllegalArgumentException e) {
+            log.info("Invalid use input: " + e.getMessage());
             return new ResponseEntity<>("Invalid input: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch(Throwable t) {
             log.error("Server error ", t);

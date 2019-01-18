@@ -62,7 +62,14 @@ public class DogService {
     public void putDog(Dog dog) {
         this.jdbi.useHandle(
             (h) -> {
-                h.attach(DogDao.class).insertDog(dog);
+                h.attach(DogDao.class).insertDog(
+                    dog
+//                    dog.getRegisteredName(),
+//                    dog.getPetName(),
+//                    dog.getBreed(),
+//                    dog.getPictureUrl(),
+//                    dog.getThumbnailUrl()
+                );
             }
         );
     }

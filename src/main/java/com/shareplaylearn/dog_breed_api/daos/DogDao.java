@@ -11,8 +11,18 @@ import org.jdbi.v3.sqlobject.statement.UseRowMapper;
 import java.util.List;
 
 public interface DogDao {
-    @SqlUpdate("insert into Dog (breed) values (:breed)")
-    void insertDog(@BindBean Dog dog);
+    /**
+     */
+    @SqlUpdate("insert into Dog (registeredName,petName,breed,pictureUrl,thumbnailUrl) " +
+        "values (:registeredName,:petName,:breed,:pictureUrl,:thumbnailUrl)")
+    void insertDog(
+        @BindBean Dog dog
+//        @Bind("registeredName") String registeredName,
+//        @Bind("petName") String petName,
+//        @Bind("breed") String breed,
+//        @Bind("pictureUrl") String pictureUrl,
+//        @Bind("thumbnailUrl") String thumbnailUrl
+    );
 
     @SqlQuery("select * from Dog where breed = :breed")
     @RegisterBeanMapper(Dog.class)
@@ -21,4 +31,7 @@ public interface DogDao {
     @SqlQuery("select * from Dog")
     @RegisterBeanMapper(Dog.class)
     List<Dog> getDogIndex();
+
+    @SqlUpdate("delete from Dog")
+    void clearData();
 }

@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.net.MalformedURLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +26,7 @@ public class DogBreedResourceTests {
     private DogService dogService;
     private MetricRegistry metricRegistry;
     private static final String testBreed1 = "test breed1";
+    private static final String testURL1 = "http://i.imgur.com/qWLKy8a.jpg";
     private static final Gson GSON = new Gson();
 
     public DogBreedResourceTests() {
@@ -41,8 +43,11 @@ public class DogBreedResourceTests {
     }
 
     @Test
-    public void getDogWithBreed() {
-        List<Dog> expected = Arrays.asList(new Dog(testBreed1), new Dog(testBreed1));
+    public void getDogWithBreed() throws MalformedURLException {
+        List<Dog> expected = Arrays.asList(
+            new Dog(testBreed1, testURL1),
+            new Dog(testBreed1, testURL1)
+        );
         when(dogService.getDogsWithBreed(eq(testBreed1))).thenReturn(expected);
         ResponseEntity<String> resp = dogResource.getDogsWithBreed(testBreed1);
         assertEquals(HttpStatus.OK, resp.getStatusCode());
