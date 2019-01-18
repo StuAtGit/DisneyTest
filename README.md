@@ -35,8 +35,8 @@ of good views on each side, and this is my preference.
 - Something like SparkJava:
 http://sparkjava.com/
 Although, I can imagine someone being a little hesistant about it 
-due to the paucity of maintainers & corporate backing. Buts it's been 
-great for me!
+due to the paucity of maintainers & corporate backing. But it has been 
+great for me! Even in prod, under fairly high load.
 
 - JDBI  
 A.K.A What's the ORM you're using???  
