@@ -49,7 +49,9 @@ one one side:
     
     On the other:
     - Need to use Hibernate or any ORM,
-So, obviously, I went with the "any ORM" part :)  
+    
+So, obviously, I went with the "any ORM" part :) 
+ 
 Why? JDBI is just really nice, in my opinion. Note that I'm very
 much on the "Keep Your ORM Thin", camp. But, on the other hand,
 no, I don't like scattering SQL throughout my code. On the other 
