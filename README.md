@@ -5,7 +5,8 @@ A PoC service for my Disney interview.
 
 #### Spring Boot
 
-Yes, this is (pretty much) my first time with spring boot. 
+Yes, this is (pretty much) my first time with spring boot.
+(Not my first time with Spring, though) 
 Why? Because the motivations that resulted in the creation 
 of spring boot, motivated me off of spring for 
 everything except DI before Spring Boot came out, and then
