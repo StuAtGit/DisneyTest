@@ -1,5 +1,7 @@
 package com.shareplaylearn.dog_breed_api;
 
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.jmx.JmxReporter;
 import com.shareplaylearn.dog_breed_api.daos.DogDao;
 import com.shareplaylearn.dog_breed_api.models.Dog;
 import com.shareplaylearn.dog_breed_api.resources.DogResource;
@@ -27,12 +29,12 @@ public class DogBreedApiController {
 
     @Bean
     public DogResource dogResource() {
-        return new DogResource(dogService());
+        return new DogResource(dogService(), metricRegistry());
     }
 
     @Bean
     public DogService dogService() {
-        return new DogService(DogDb());
+        return new DogService(DogDb(), metricRegistry());
     }
 
     @Bean
@@ -41,6 +43,14 @@ public class DogBreedApiController {
         jdbi.installPlugin(new SqlObjectPlugin());
         initDogDb(jdbi);
         return jdbi;
+    }
+
+    @Bean
+    public MetricRegistry metricRegistry() {
+        MetricRegistry metricRegistry = new MetricRegistry();
+        JmxReporter reporter = JmxReporter.forRegistry(metricRegistry).build();
+        reporter.start();
+        return metricRegistry;
     }
 
     private void initDogDb(Jdbi jdbi) {

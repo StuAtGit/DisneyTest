@@ -61,6 +61,12 @@ with your SQL. There's been so much passion about ORMs in the past,
 no need for me to re-hash here.   
 Basically, yes, I like ORMs, but I like thin (and transparently thread-safe!) ones.
 
+- DropWizard Metrics
+Easy JMX integration, modular enough that you can usually hook it into
+whatever X monitoring framework you happen to use. Method annotations, if you 
+really want them (usually I end up with something a little more granular, though
+,and I want better named metrics, more control, etc). 'Nuf Said.
+
 *I wrote this in an IDE, on a kinda small window without much in the way of 
 advanced spelling or grammar checking. Apologies for any spelling & grammar issues.
 
