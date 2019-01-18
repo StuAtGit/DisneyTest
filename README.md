@@ -30,11 +30,11 @@ POST /api/upvote/[dogId]/user/[userId] -> cast one upvote for dog [dogId] using 
 POST /api/upvote/[dogId]/user/[userId] -> cast one downvote for dog [dogId] using [userId]
 ```
 
-##Assumptions:
+## Assumptions:
  - userIds can be authenticated and authorized via some other service/library.
  - I do build out some dummy test users ids ( 1,2,3,4,etc )
 
-##Known issues:
+## Known issues:
 - the voting mechanism is logically correct (a given userId can only
   vote for a particular dog once => true). 
   However, it's not actually correct:
@@ -86,7 +86,8 @@ great for me! Even in prod, under fairly high load. It's really just a nice
 wrapper around Embedded Jetty that makes things like wiring up your resources
 to methods, TLS, thread pool configuration, etc, nice and easy.
 
-- JDBI  
+- JDBI (my ORM of choice)
+ 
 A.K.A What's the ORM you're using???  
 http://jdbi.org/  
 OK, so I realize I may be liberally interpreting the rules here, namely,
@@ -98,8 +99,10 @@ one one side:
     
 So, obviously, I went with the "any ORM" part :) 
  
-Why? JDBI is just really nice, in my opinion. Note that I'm very
-much on the "Keep Your ORM Thin", camp. But, on the other hand,
+Why? JDBI is familiar and nice. 
+
+Why do I think it's nice?   
+Note that I'm very much on the "Keep Your ORM Thin", camp. But, on the other hand,
 no, I don't like scattering SQL throughout my code. On the third 
 side of things, no, I don't like debugging through a dense, complicated, 
 opaque translation when things go wrong or performance goes haywire
