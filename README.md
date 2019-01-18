@@ -28,7 +28,7 @@ spring finally came around too:
 What's my typical stack?
 
 - Spring for your basic wiring up of dependencies. Note,
-howver, that outside of application startup, I generally
+however, that outside of application startup, I generally
 prefer DI via explicit constructor arguments. There are plenty 
 of good views on each side, and this is my preference.
 
