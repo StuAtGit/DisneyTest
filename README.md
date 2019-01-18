@@ -36,7 +36,9 @@ of good views on each side, and this is my preference.
 http://sparkjava.com/
 Although, I can imagine someone being a little hesistant about it 
 due to the paucity of maintainers & corporate backing. But it has been 
-great for me! Even in prod, under fairly high load.
+great for me! Even in prod, under fairly high load. It's really just a nice
+wrapper around Embedded Jetty that makes things like wiring up your resources
+to methods, TLS, thread pool configuration, etc, nice and easy.
 
 - JDBI  
 A.K.A What's the ORM you're using???  
