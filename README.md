@@ -22,7 +22,8 @@ spring finally came around too:
     though, since I feel like, in the *embedded*
     server space, Jetty has seen more use in prod,
     whereas *embedded* Tomcat isn't necessarily as widely used
-    (although I've found standalone Tomcat w/ WARs is very common, obviously)
+    (although I've found standalone Tomcat w/ WARs is very common, obviously). But
+    if I work at a place comfortable with Embedded Tomcat - works for me!
 
 What's my typical stack?
 
